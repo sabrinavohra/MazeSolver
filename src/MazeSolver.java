@@ -4,7 +4,9 @@
  * @version 03/10/2023
  */
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class MazeSolver {
     private Maze maze;
@@ -29,7 +31,25 @@ public class MazeSolver {
     public ArrayList<MazeCell> getSolution() {
         // TODO: Get the solution from the maze
         // Should be from start to end cells
-        return null;
+        Stack<MazeCell> s = new Stack<>();
+        ArrayList<MazeCell> cells = solutionGetter(maze.getEndCell());
+        for(MazeCell c: cells) {
+            s.add(c);
+        }
+        ArrayList<MazeCell> finalCells = new ArrayList<>();
+        for(int i = 0; i < s.size(); i++) {
+            finalCells.add(s.pop());
+        }
+        return finalCells;
+    }
+
+    public ArrayList<MazeCell> solutionGetter(MazeCell m) {
+        ArrayList<MazeCell> cellsList = new ArrayList<>();
+        if(m == maze.getStartCell()) {
+            return cellsList;
+        }
+        cellsList.add(m);
+        return solutionGetter(m.getParent());
     }
 
     /**
