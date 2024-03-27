@@ -31,22 +31,29 @@ public class MazeSolver {
     public ArrayList<MazeCell> getSolution() {
         // TODO: Get the solution from the maze
         // Should be from start to end cells
-        Stack<MazeCell> cells = solutionGetter(maze.getEndCell());
         ArrayList<MazeCell> finalCells = new ArrayList<>();
-        for(int i = 0; i < cells.size(); i++) {
-            finalCells.set(i, cells.pop());
+        Stack<MazeCell> s = new Stack<>();
+        MazeCell current = maze.getEndCell();
+        while(current != null) {
+            s.push(current);
+            current = current.getParent();
+        }
+        for(int i = 0; i < s.size(); i++) {
+            MazeCell toAdd = s.pop();
+            finalCells.add(toAdd);
+            i--;
         }
         return finalCells;
     }
 
-    public Stack<MazeCell> solutionGetter(MazeCell m) {
-        Stack<MazeCell> cellsList = new Stack<>();
-        if(m == maze.getStartCell()) {
-            return cellsList;
-        }
-        cellsList.push(m);
-        return solutionGetter(m.getParent());
-    }
+//    public Stack<MazeCell> solutionGetter(MazeCell m) {
+//        Stack<MazeCell> cellsList = new Stack<>();
+//        if(m == maze.getStartCell()) {
+//            return cellsList;
+//        }
+//        cellsList.push(m);
+//        return solutionGetter(m.getParent());
+//    }
 
     /**
      * Performs a Depth-First Search to solve the Maze
