@@ -31,24 +31,20 @@ public class MazeSolver {
     public ArrayList<MazeCell> getSolution() {
         // TODO: Get the solution from the maze
         // Should be from start to end cells
-        Stack<MazeCell> s = new Stack<>();
-        ArrayList<MazeCell> cells = solutionGetter(maze.getEndCell());
-        for(MazeCell c: cells) {
-            s.add(c);
-        }
+        Stack<MazeCell> cells = solutionGetter(maze.getEndCell());
         ArrayList<MazeCell> finalCells = new ArrayList<>();
-        for(int i = 0; i < s.size(); i++) {
-            finalCells.add(s.pop());
+        for(int i = 0; i < cells.size(); i++) {
+            finalCells.set(i, cells.pop());
         }
         return finalCells;
     }
 
-    public ArrayList<MazeCell> solutionGetter(MazeCell m) {
-        ArrayList<MazeCell> cellsList = new ArrayList<>();
+    public Stack<MazeCell> solutionGetter(MazeCell m) {
+        Stack<MazeCell> cellsList = new Stack<>();
         if(m == maze.getStartCell()) {
             return cellsList;
         }
-        cellsList.add(m);
+        cellsList.push(m);
         return solutionGetter(m.getParent());
     }
 
