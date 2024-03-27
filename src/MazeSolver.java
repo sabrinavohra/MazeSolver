@@ -46,15 +46,6 @@ public class MazeSolver {
         return finalCells;
     }
 
-//    public Stack<MazeCell> solutionGetter(MazeCell m) {
-//        Stack<MazeCell> cellsList = new Stack<>();
-//        if(m == maze.getStartCell()) {
-//            return cellsList;
-//        }
-//        cellsList.push(m);
-//        return solutionGetter(m.getParent());
-//    }
-
     /**
      * Performs a Depth-First Search to solve the Maze
      * @return An ArrayList of MazeCells in order from the start to end cell
