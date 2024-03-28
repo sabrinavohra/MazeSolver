@@ -4,7 +4,7 @@
  * @version 03/10/2023
  */
 
-import java.lang.reflect.Array;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -54,13 +54,35 @@ public class MazeSolver {
         // TODO: Use DFS to solve the maze
         // Explore the cells in the order: NORTH, EAST, SOUTH, WEST
         ArrayList<MazeCell> finalList = new ArrayList<MazeCell>();
-        MazeCell currentCell;
         Stack<MazeCell> s = new Stack<MazeCell>();
         s.push(maze.getStartCell());
+        maze.getStartCell().setExplored(true);
         while(!s.empty()) {
-            currentCell =
+            MazeCell currentCell = s.pop();
+            for(MazeCell e: findNear(currentCell)) {
+                s.push(e);
+                e.setExplored(true);
+                e.setParent(currentCell);
+            }
         }
-        return null;
+        return getSolution();
+    }
+
+    public ArrayList<MazeCell> findNear(MazeCell currentC) {
+        ArrayList<MazeCell> theNeighbors = new ArrayList<>();
+        if(maze.isValidCell(currentC.getRow() - 1, currentC.getCol())) {
+            theNeighbors.add(maze.getCell(currentC.getRow() - 1, currentC.getCol()));
+        }
+        if(maze.isValidCell(currentC.getRow(), currentC.getCol() + 1)) {
+            theNeighbors.add(maze.getCell(currentC.getRow(), currentC.getCol() + 1));
+        }
+        if(maze.isValidCell(currentC.getRow() + 1, currentC.getCol())) {
+            theNeighbors.add(maze.getCell(currentC.getRow() + 1, currentC.getCol()));
+        }
+        if(maze.isValidCell(currentC.getRow(), currentC.getCol() - 1)) {
+            theNeighbors.add(maze.getCell(currentC.getRow(), currentC.getCol() - 1));
+        }
+        return theNeighbors;
     }
 
     /**
