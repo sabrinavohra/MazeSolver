@@ -33,13 +33,13 @@ public class MazeSolver {
         // Should be from start to end cells
         MazeCell current = maze.getEndCell();
         ArrayList<MazeCell> finalCells = new ArrayList<>();
-        Stack<MazeCell> reverseCells = new Stack<>();
+        Stack<MazeCell> s = new Stack<>();
         while(current != maze.getStartCell()) {
+            s.push(current);
             current = current.getParent();
-            reverseCells.push(current);
         }
-        while(!reverseCells.isEmpty()) {
-            MazeCell toAdd = reverseCells.pop();
+        while(!s.isEmpty()) {
+            MazeCell toAdd = s.pop();
             finalCells.add(toAdd);
         }
         return finalCells;
@@ -54,14 +54,14 @@ public class MazeSolver {
         // Explore the cells in the order: NORTH, EAST, SOUTH, WEST
         //ArrayList<MazeCell> finalList = new ArrayList<MazeCell>();
         Stack<MazeCell> s = new Stack<>();
-        MazeCell current = maze.getStartCell();
-        current.setExplored(true);
+        MazeCell start = maze.getStartCell();
+        start.setExplored(true);
         while(!s.empty()) {
-            MazeCell currentCell = s.pop();
-            for(MazeCell e: findNeighbors(currentCell)) {
+            start = s.pop();
+            for(MazeCell e: findNeighbors(start)) {
                 s.push(e);
+                e.setParent(start);
                 e.setExplored(true);
-                e.setParent(currentCell);
             }
         }
         return getSolution();
