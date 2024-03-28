@@ -31,17 +31,16 @@ public class MazeSolver {
     public ArrayList<MazeCell> getSolution() {
         // TODO: Get the solution from the maze
         // Should be from start to end cells
-        ArrayList<MazeCell> finalCells = new ArrayList<>();
-        Stack<MazeCell> s = new Stack<>();
         MazeCell current = maze.getEndCell();
-        while(current != null) {
-            s.push(current);
+        ArrayList<MazeCell> finalCells = new ArrayList<>();
+        Stack<MazeCell> reverseCells = new Stack<>();
+        while(current != maze.getStartCell()) {
             current = current.getParent();
+            reverseCells.push(current);
         }
-        for(int i = 0; i < s.size(); i++) {
-            MazeCell toAdd = s.pop();
+        while(!reverseCells.isEmpty()) {
+            MazeCell toAdd = reverseCells.pop();
             finalCells.add(toAdd);
-            i--;
         }
         return finalCells;
     }
@@ -54,12 +53,12 @@ public class MazeSolver {
         // TODO: Use DFS to solve the maze
         // Explore the cells in the order: NORTH, EAST, SOUTH, WEST
         //ArrayList<MazeCell> finalList = new ArrayList<MazeCell>();
-        Stack<MazeCell> s = new Stack<MazeCell>();
-        s.push(maze.getStartCell());
-        //maze.getStartCell().setExplored(true);
+        Stack<MazeCell> s = new Stack<>();
+        MazeCell current = maze.getStartCell();
+        current.setExplored(true);
         while(!s.empty()) {
             MazeCell currentCell = s.pop();
-            for(MazeCell e: findDFS(currentCell)) {
+            for(MazeCell e: findNeighbors(currentCell)) {
                 s.push(e);
                 e.setExplored(true);
                 e.setParent(currentCell);
@@ -68,7 +67,10 @@ public class MazeSolver {
         return getSolution();
     }
 
-    public ArrayList<MazeCell> findDFS(MazeCell currentC) {
+//    public Stack<MazeCell> checkNeighbors(MazeCell current,Stack<MazeCell> toVisit) {
+//
+//    }
+    public ArrayList<MazeCell> findNeighbors(MazeCell currentC) {
         ArrayList<MazeCell> theNeighbors = new ArrayList<>();
         if(maze.isValidCell(currentC.getRow() - 1, currentC.getCol())) {
             theNeighbors.add(maze.getCell(currentC.getRow() - 1, currentC.getCol()));
