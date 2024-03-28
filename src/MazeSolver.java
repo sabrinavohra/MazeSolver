@@ -53,13 +53,13 @@ public class MazeSolver {
     public ArrayList<MazeCell> solveMazeDFS() {
         // TODO: Use DFS to solve the maze
         // Explore the cells in the order: NORTH, EAST, SOUTH, WEST
-        ArrayList<MazeCell> finalList = new ArrayList<MazeCell>();
+        //ArrayList<MazeCell> finalList = new ArrayList<MazeCell>();
         Stack<MazeCell> s = new Stack<MazeCell>();
         s.push(maze.getStartCell());
-        maze.getStartCell().setExplored(true);
+        //maze.getStartCell().setExplored(true);
         while(!s.empty()) {
             MazeCell currentCell = s.pop();
-            for(MazeCell e: findNear(currentCell)) {
+            for(MazeCell e: findDFS(currentCell)) {
                 s.push(e);
                 e.setExplored(true);
                 e.setParent(currentCell);
@@ -68,7 +68,7 @@ public class MazeSolver {
         return getSolution();
     }
 
-    public ArrayList<MazeCell> findNear(MazeCell currentC) {
+    public ArrayList<MazeCell> findDFS(MazeCell currentC) {
         ArrayList<MazeCell> theNeighbors = new ArrayList<>();
         if(maze.isValidCell(currentC.getRow() - 1, currentC.getCol())) {
             theNeighbors.add(maze.getCell(currentC.getRow() - 1, currentC.getCol()));
@@ -92,6 +92,10 @@ public class MazeSolver {
     public ArrayList<MazeCell> solveMazeBFS() {
         // TODO: Use BFS to solve the maze
         // Explore the cells in the order: NORTH, EAST, SOUTH, WEST
+        return null;
+    }
+
+    public ArrayList<MazeCell> findBFS() {
         return null;
     }
 
