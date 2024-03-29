@@ -31,12 +31,13 @@ public class MazeSolver {
     public ArrayList<MazeCell> getSolution() {
         // TODO: Get the solution from the maze
         // Should be from start to end cells
-        MazeCell current = maze.getEndCell();
         ArrayList<MazeCell> finalCells = new ArrayList<>();
         Stack<MazeCell> s = new Stack<>();
+        MazeCell current = maze.getEndCell();
+        s.push(current);
         while(current != maze.getStartCell()) {
-            s.push(current);
             current = current.getParent();
+            s.push(current);
         }
         while(!s.isEmpty()) {
             MazeCell toAdd = s.pop();
@@ -55,14 +56,16 @@ public class MazeSolver {
         //ArrayList<MazeCell> finalList = new ArrayList<MazeCell>();
         Stack<MazeCell> s = new Stack<>();
         MazeCell start = maze.getStartCell();
+        s.push(maze.getStartCell());
         start.setExplored(true);
-        while(!s.empty()) {
-            start = s.pop();
-            for(MazeCell e: findNeighbors(start)) {
+        MazeCell currentC = s.pop();
+        while(currentC != maze.getEndCell()) {
+            for(MazeCell e: findNeighbors(currentC)) {
                 s.push(e);
-                e.setParent(start);
+                e.setParent(currentC);
                 e.setExplored(true);
             }
+            currentC = s.pop();
         }
         return getSolution();
     }
@@ -116,8 +119,8 @@ public class MazeSolver {
         // Reset the maze
         maze.reset();
 
-        // Solve the maze using BFS and print the solution
-        sol = ms.solveMazeBFS();
-        maze.printSolution(sol);
+//        // Solve the maze using BFS and print the solution
+//        sol = ms.solveMazeBFS();
+//        maze.printSolution(sol);
     }
 }
