@@ -146,13 +146,16 @@ public class Maze {
      * @return boolean true/false
      */
     public boolean isValidCell(int row, int col) {
-        // TODO: Complete this function
+        // Checks if cell is valid in regard to where it is in the maze (can't go out of bounds)
         if(col >= 0 && col < numCols && row >= 0 && row < numRows) {
+            // If cell is valid, can create a current MazeCell to check if it is a valid MazeCell to check
             MazeCell current = getCell(row, col);
+            // Checks if in-boundary MazeCell is explorable
             if(!current.isExplored() && !current.isWall()) {
                 return true;
             }
         }
+        // If it is not in-bounds or is already explored or is a wall, does not allow MazeCell to be explored again
         return false;
     }
 }
