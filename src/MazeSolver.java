@@ -129,21 +129,32 @@ public class MazeSolver {
      */
     // Solves maze using Breadth-First Search
     public ArrayList<MazeCell> solveMazeBFS() {
-        // Creates a Queue
+        // Creates a Queue to hold the MazeCells so each added MazeCell is added to the back of the list and each
+        // removed MazeCell is removed from the front
         Queue<MazeCell> theQueue = new LinkedList<MazeCell>();
+        // Tracks starting MazeCell
         MazeCell start = maze.getStartCell();
+        // Adds the starting MazeCell to the Queue
         theQueue.add(start);
+        // Sets the start MazeCell to be explored, so it can't be visited again
         start.setExplored(true);
+        // Picks the newest MazeCell
         MazeCell currentC = theQueue.remove();
+        // Runs while maze hasn't been solved
         while(currentC != maze.getEndCell()) {
+            // Finds neighbors of every MazeCell
             for (MazeCell e: findNeighbors(currentC)) {
+                // Adds each neighbor to the Queue
                 theQueue.add(e);
+                // Sets each neighbor's parent to be the current MazeCell
                 e.setParent(currentC);
+                // Sets the neighbor to be explored, so it can't be visited again
                 e.setExplored(true);
             }
+            // Checks the current MazeCell to the next one
             currentC = theQueue.remove();
         }
-        // Explore the cells in the order: NORTH, EAST, SOUTH, WEST
+        // Returns the solution
         return getSolution();
     }
 

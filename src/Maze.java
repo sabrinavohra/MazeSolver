@@ -155,7 +155,7 @@ public class Maze {
                 return true;
             }
         }
-        // If it is not in-bounds or is already explored or is a wall, does not allow MazeCell to be explored again
+        // If it is not in-bounds or is already explored or is a wall, does not allow MazeCell to be explored
         return false;
     }
 }
