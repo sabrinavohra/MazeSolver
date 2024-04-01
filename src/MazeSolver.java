@@ -6,7 +6,9 @@
 
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Queue;
 import java.util.Stack;
+import java.util.LinkedList;
 
 public class MazeSolver {
     private Maze maze;
@@ -29,7 +31,6 @@ public class MazeSolver {
      * @return An arraylist of MazeCells to visit in order
      */
     public ArrayList<MazeCell> getSolution() {
-        // TODO: Get the solution from the maze
         // Should be from start to end cells
         ArrayList<MazeCell> finalCells = new ArrayList<>();
         Stack<MazeCell> s = new Stack<>();
@@ -51,7 +52,6 @@ public class MazeSolver {
      * @return An ArrayList of MazeCells in order from the start to end cell
      */
     public ArrayList<MazeCell> solveMazeDFS() {
-        // TODO: Use DFS to solve the maze
         // Explore the cells in the order: NORTH, EAST, SOUTH, WEST
         //ArrayList<MazeCell> finalList = new ArrayList<MazeCell>();
         Stack<MazeCell> s = new Stack<>();
@@ -95,13 +95,21 @@ public class MazeSolver {
      * @return An ArrayList of MazeCells in order from the start to end cell
      */
     public ArrayList<MazeCell> solveMazeBFS() {
-        // TODO: Use BFS to solve the maze
+        Queue<MazeCell> theQueue = new LinkedList<MazeCell>();
+        MazeCell start = maze.getStartCell();
+        theQueue.add(start);
+        start.setExplored(true);
+        MazeCell currentC = theQueue.remove();
+        while(currentC != maze.getEndCell()) {
+            for (MazeCell e: findNeighbors(currentC)) {
+                theQueue.add(e);
+                e.setParent(currentC);
+                e.setExplored(true);
+            }
+            currentC = theQueue.remove();
+        }
         // Explore the cells in the order: NORTH, EAST, SOUTH, WEST
-        return null;
-    }
-
-    public ArrayList<MazeCell> findBFS() {
-        return null;
+        return getSolution();
     }
 
     public static void main(String[] args) {
@@ -119,8 +127,8 @@ public class MazeSolver {
         // Reset the maze
         maze.reset();
 
-//        // Solve the maze using BFS and print the solution
-//        sol = ms.solveMazeBFS();
-//        maze.printSolution(sol);
+        // Solve the maze using BFS and print the solution
+        sol = ms.solveMazeBFS();
+        maze.printSolution(sol);
     }
 }
